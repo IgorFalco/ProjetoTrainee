@@ -7,5 +7,14 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = env("DATABASE_URL")
+  url      = "file: ./dev.db"
+}
+
+model User{
+  id Int @id @default(autoincrement())
+  name String
+  email String @unique
+  photo String?
+  password String
+  role String
 }
