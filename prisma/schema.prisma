@@ -30,7 +30,7 @@ model Music {
   name         String
   genre        String
   album        String
-  artistId     Int
-  artist       Artist  @relation(fields: [artistId], references: [idArtist])
+  artistId     Int?
+  artist       Artist?  @relation(fields: [artistId], references: [idArtist])
   listenerUser User[]
 }
