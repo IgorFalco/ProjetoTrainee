@@ -1,7 +1,6 @@
 {
   "name": "projetotrainee",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -21,6 +20,8 @@
   },
   "dependencies": {
     "@prisma/client": "^5.4.2",
-    "@types/eslint": "^8.44.3"
-  }
+    "@types/eslint": "^8.44.4",
+    "node": "^20.7.0"
+  },
+  "description": ""
 }
