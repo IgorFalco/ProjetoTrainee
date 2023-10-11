@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,11 +7,30 @@ datasource db {
   url      = "file:./dev.db"
 }
 
-model User{
-  id Int @id @default(autoincrement())
-  name String
-  email String @unique
-  photo String?
-  password String
-  role String
+model User {
+  idUser       Int     @id @default(autoincrement())
+  name         String
+  email        String  @unique
+  photo        String?
+  password     String
+  role         String
+  listenMusics Music[]
+}
+
+model Artist {
+  idArtist Int     @id @default(autoincrement())
+  name     String
+  streams  Int
+  photo    String?
+  musics   Music[]
+}
+
+model Music {
+  idMusic      Int     @id @default(autoincrement())
+  name         String
+  genre        String
+  album        String?
+  artistId     Int
+  artist       Artist  @relation(fields: [artistId], references: [idArtist])
+  listenerUser User[]
 }
