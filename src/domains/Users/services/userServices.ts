@@ -29,6 +29,12 @@ class UserService {
             },
         })
     }
+
+    async listAll(){
+
+        const users = await prisma.user.findMany();
+        return users;
+    }
 }
 
 export default new UserService();

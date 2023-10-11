@@ -16,3 +16,12 @@ export async function DeleteUserById(id: number) {
 		console.log("Erro ao deletar o Usuário", error);
 	}
 }
+
+export async function ListAllUsers() {
+	try {
+		const users = await UserService.listAll();
+		return users;
+	} catch (error) {
+		console.log("Erro ao listar os usuários", error);
+	}
+}
