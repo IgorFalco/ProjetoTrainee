@@ -1,11 +1,9 @@
-import { CreateUserWithMusics, DeleteUserById, ListAllUsers } from "./src/domains/Users/controllers/userController";
-import { Music } from "@prisma/client";
+import { CreateUser, DeleteUserById, ListAllUsers, UpdateUserData } from "./src/domains/Users/controllers/userController";
+import { Music, User } from "@prisma/client";
 
 
 
 async function main() {
-    
-
 }
 
 main();

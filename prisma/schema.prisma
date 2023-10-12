@@ -14,7 +14,7 @@ model User {
   photo        String?
   password     String
   role         String
-  listenMusics Music[]
+  MusicsHeard Music[]
 }
 
 model Artist {
