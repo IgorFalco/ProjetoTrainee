@@ -1,11 +1,10 @@
-//funções importantes que os artistas vão ter assoziadas a ele (crud)
+
 import { deflate } from 'zlib'
 import prisma from '../../../../client/client'
 import { Artist } from "@prisma/client";
 
 class ArtistService {
 
-    // criar funções de creat, read, update e delete  
     async create(artistData: Partial<Artist> ){
         const artist = await prisma.artist.create({
             data: artistData,
