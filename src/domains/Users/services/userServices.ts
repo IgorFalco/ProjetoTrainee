@@ -27,7 +27,7 @@ class UserService {
 			where: {
 				idUser: id,
 			},
-		})
+		});
 	}
 
 	async listAll() {
@@ -42,7 +42,7 @@ class UserService {
 				idUser: id,
 			},
 			data: data,
-		})
+		});
 		return updateUser;
 
 	}
@@ -61,7 +61,7 @@ class UserService {
 			include: {
 				MusicsHeard: true,
 			}
-		})
+		});
 		return updateUser;
 	}
 
