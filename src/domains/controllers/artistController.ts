@@ -20,7 +20,7 @@ export async function deleteArtist(idArtist: number){
 
 export async function ListAllArtist(){
     try{
-        cont Artist = await ArtistServices.listAll();
+        const Artist = await ArtistServices.listAll();
         return Artist;
     }catch(error){
         console.log("Erro ao listar todos os artistas", error);
