@@ -4,7 +4,7 @@ import { Music} from "@prisma/client";
 class MusicService{
 	//CRUD MUSIC:
 	//CREATE
-	async create(body: Music, artistId: number){     //ALTERAR PARA QUANDO O ARTISTA AINDA NAO ESTA NO BANCO DE DADOS
+	async createMusic(body: Music, artistId: number){     //ALTERAR PARA QUANDO O ARTISTA AINDA NAO ESTA NO BANCO DE DADOS
 
 		const artistaDesejado = await prisma.artist.findUnique({
 			where: {
@@ -127,6 +127,26 @@ class MusicService{
 		});
 		return updateMusic;
 		
+	}
+
+	//DELETE
+	async deleteMusic(musicId: number){
+		const music = await prisma.music.findUnique({
+			where: {
+				idMusic: musicId,
+			},
+		});
+
+		if(!music){
+			throw new Error("Música não encontrada");
+		}
+		
+		const deleteMusic = await prisma.music.delete({
+			where:{
+				idMusic: musicId,
+			}
+		});
+
 	}
 
 	

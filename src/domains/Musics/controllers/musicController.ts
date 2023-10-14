@@ -3,7 +3,7 @@ import {Music} from "@prisma/client";
 
 export async function CreateMusic(body: Music, artistId: number) {
 	try {
-		await MusicService.create(body, artistId);
+		await MusicService.createMusic(body, artistId);
 	} catch (error) {
 		console.log("Erro ao adicionar uma nova música", error);
 	}
@@ -43,6 +43,15 @@ export async function UpdateListenerUser(musicId: number, userId: number){
 		return updateListener;
 	} catch (error){
 		console.log("Erro ao atualizar a lista de ouvintes dessa música");
+	}
+}
+
+export async function DeleteMusic(musicId: number){
+	try{
+		const deleteMusic = await MusicService.deleteMusic(musicId);
+		return deleteMusic;
+	} catch (error){
+		console.log("Erro ao deletar música",error);
 	}
 }
 
