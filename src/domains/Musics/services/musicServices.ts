@@ -2,7 +2,7 @@ import prisma from "../../../../client/client";
 import { Music} from "@prisma/client";
 
 class MusicService{
-	//CRDU MUSIC:
+	//CRUD MUSIC:
 	//CREATE
 	async create(body: Music, artistId: number){     //ALTERAR PARA QUANDO O ARTISTA AINDA NAO ESTA NO BANCO DE DADOS
 
@@ -39,6 +39,97 @@ class MusicService{
 		const musics = await prisma.music.findMany();
 		return musics;
 	}
+
+	//UPDATE
+	async updateMusic(id: number, data: Partial<Music>){
+		const music = await prisma.music.findUnique({
+			where: {
+				idMusic: id,
+			},
+		});
+
+		if(!music){
+			throw new Error("Música não encontrada");
+		}
+		else{
+			const updateMusic = await prisma.music.update({
+				where: {
+					idMusic: id,
+				},
+				data: data,
+			});
+			return updateMusic;
+		}
+	}
+
+
+
+	async updateListenerUser(musicId: number, userId: number){
+
+		const music = await prisma.music.findUnique({
+			where: {
+				idMusic: musicId,
+			},
+		});
+
+		if(!music){
+			throw new Error("Música não encontrada");
+		}
+
+
+		const updateListener = await prisma.music.update({
+			where:{
+				idMusic: musicId,
+			},
+			data: {
+				listenerUser:{
+					connect:{
+						idUser: userId,
+					}
+				}
+			},
+			include:{
+				listenerUser: true,
+			}
+		});
+
+		return updateListener;
+	}
+
+	async updateMusicArtist(musicId: number, newArtistId: number){
+		const music = await prisma.music.findUnique({
+			where: {
+				idMusic: musicId,
+			},
+		});
+
+		const newArtist = await prisma.artist.findUnique({
+			where: {
+				idArtist: newArtistId,
+			},
+		});
+
+		if(!music){
+			throw new Error("Música não encontrada");
+		}
+		
+		if(!newArtist){
+			throw new Error("Artista não encontrado");
+		}
+		
+		const updateMusic = await prisma.music.update({
+			where: {
+				idMusic: musicId,
+			},
+			data: {
+				artistId: newArtistId,
+			}
+		});
+		return updateMusic;
+		
+	}
+
+	
 
 }
 
