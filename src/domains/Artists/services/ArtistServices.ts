@@ -68,18 +68,15 @@ class ArtistService {
     }
 
     async listStreams(artistId: number) {
-        const musics = await prisma.music.findMany({
+        const streams = await prisma.artist.findUnique({
             where: {
-                artistId,
+                idArtist: artistId,
             },
-            select: {
-                idMusic: true,
-                name: true,
-                genre: true,
-                album: true,
-            },
+            select:{
+                streams: true,
+            }
         });
-        return musics;
+        return streams;
     }
 
     async UpdateStreams(artistId: number, musicId: number) {

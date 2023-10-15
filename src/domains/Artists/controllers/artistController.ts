@@ -50,7 +50,7 @@ export async function updateArtistStreams(idArtist: number, idMusic: number) {
         const updateArtist = await ArtistServices.UpdateStreams(idArtist, idMusic);
         return updateArtist
     }catch(error){
-        console.log("Erro ao adicionar uma nova música ao artista", error);
+        console.log("Erro ao adicionar uma nova música ao artistaimpor", error);
     }
 }
 
