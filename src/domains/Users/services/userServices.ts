@@ -54,7 +54,7 @@ class UserService {
 			data: {
 				MusicsHeard: {
 					connect: {
-						idMusic: musicId
+						idMusic: musicId,
 					},
 				},
 			},

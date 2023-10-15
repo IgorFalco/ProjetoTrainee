@@ -1,9 +1,9 @@
-import ArtistServices from "../artists/services/ArtistServices";
+import ArtistServices from "../services/ArtistServices";
 import {Artist} from "@prisma/client";
 
 export async function CreateArtist(body: Artist) {
 	try {
-		await ArtistServices.CreateArtist(body: Artist);
+		await ArtistServices.create(body);
 	} catch (error) {
 		console.log("Erro ao adicionar um novo artista", error);
 	}
@@ -11,7 +11,7 @@ export async function CreateArtist(body: Artist) {
 
 export async function deleteArtist(idArtist: number){
 	try{
-		const deleteArtist = await ArtistServices.deleteArtist(idArtist);
+		const deleteArtist = await ArtistServices.delete(idArtist);
 		return deleteArtist;
 	} catch (error){
 		console.log("Erro ao deletar o artista",error);
@@ -27,18 +27,36 @@ export async function ListAllArtist(){
     }
 }
 
+export async function findArtist(id: number){
+    try{
+        const Artist = await ArtistServices.find(id);
+        return Artist;
+    }catch(error){
+        console.log("Erro ao encontrar o artista", error);
+    }
+}
+
 export async function updateArtist(idArtist: number, data : Partial<Artist>) {
     try{
-        const updateArtist = await ArtistServices.updateArtist(idArtist, data);
+        const updateArtist = await ArtistServices.update(idArtist, data);
         return updateArtist
     }catch(error){
         console.log("Erro ao atualizar o artista", error);
     }
 }
 
-export async function ArtistStreams(idArtist: number) {
+export async function updateArtistStreams(idArtist: number, idMusic: number) {
+    try{
+        const updateArtist = await ArtistServices.UpdateStreams(idArtist, idMusic);
+        return updateArtist
+    }catch(error){
+        console.log("Erro ao adicionar uma nova música ao artista", error);
+    }
+}
+
+export async function listArtistStreams(idArtist: number) {
     try {
-        const artistStreams = await ArtistServices.ArtistStreams(idArtist);
+        const artistStreams = await ArtistServices.listStreams(idArtist);
         return artistStreams;
     } catch (error) {
         console.log("Erro ao obter o número de streams do artista", error);

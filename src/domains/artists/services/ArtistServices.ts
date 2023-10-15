@@ -1,61 +1,114 @@
 
-import { deflate } from 'zlib'
 import prisma from '../../../../client/client'
 import { Artist } from "@prisma/client";
 
 class ArtistService {
 
-    async CreateArtist(artistData: Partial<Artist> ){
+    async create(body: Artist) {
         const artist = await prisma.artist.create({
-            data: artistData,
-            });
-            return artist;
-        }
-
-    async updateArtist(id: number, Artistdata: Partial<Artist>) {
-        const updateArtist = await prisma.artist.update({
-            where: {
-                idArtst: id,
+            data: {
+                name: body.name,
+                streams: body.streams,
+                photo: body.photo,
+                musics: {
+                    create: [],
+                }
             },
-            data: Artistdata,
-        })
-        return updateArtist;
-    
+        });
+        return artist;
     }
-    async deleteArtist(id: number) {
+
+    async update(artistId: number, Artistdata: Partial<Artist>) {
+
+        const artist = await prisma.artist.findUnique({
+            where: {
+                idArtist: artistId,
+            },
+        });
+        if (!artist) {
+            throw new Error("Artista não encontrado");
+        }
+        else {
+            const updateArtist = await prisma.artist.update({
+                where: {
+                    idArtist: artistId,
+                },
+                data: Artistdata,
+            })
+            return updateArtist;
+        }
+    }
+
+    async delete(id: number) {
         const deleteArtist = await prisma.artist.delete({
             where: {
                 idArtist: id,
             },
         })
     }
+
     async listAll() {
         const artists = await prisma.artist.findMany();
         return artists;
-      }
+    }
 
-    async stremsartist(){
+    async find(artistId: number) {
         const artist = await prisma.artist.findUnique({
             where: {
-                idArtist: id,
+                idArtist: artistId,
             },
         });
-        return artist;
+        if (!artist) {
+            throw new Error("Artista não encontrado");
+        } else {
+            return artist;
+        }
 
-    async UpdateArtistStreams() {
-        const updateArtist = await prisma.artist.upsert({
+
+    }
+
+    async listStreams(artistId: number) {
+        const musics = await prisma.music.findMany({
             where: {
-                idArtist: id,
+                artistId,
             },
-            update: {
-                streams: streams,
-            },
-            create: {
-                idArtist: id,
-                streams: streams,
+            select: {
+                idMusic: true,
+                name: true,
+                genre: true,
+                album: true,
             },
         });
-        return updateArtist;
+        return musics;
+    }
+
+    async UpdateStreams(artistId: number, musicId: number) {
+        const artist = await prisma.artist.findUnique({
+            where: {
+                idArtist: artistId,
+            },
+        });
+        if (!artist) {
+            throw new Error("Artista não encontrado");
+        } else {
+            const uptateArtist = await prisma.artist.update({
+                where: {
+                    idArtist: artistId,
+                },
+                data: {
+                    musics: {
+                        connect: {
+                            idMusic: musicId,
+                        }
+                    },
+                },
+                include: {
+                    musics: true,
+                }
+            })
+            return uptateArtist;
+        }
+
     }
 }
 
