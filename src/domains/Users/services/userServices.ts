@@ -1,5 +1,4 @@
-import { defineDmmfProperty } from "@prisma/client/runtime/library";
-import prisma from "../../../../client/client";
+import prisma from '../../../../config/prismaClient'
 import { Music, User } from "@prisma/client";
 
 class UserService {

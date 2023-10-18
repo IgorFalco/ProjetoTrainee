@@ -1,5 +1,5 @@
 
-import prisma from '../../../../client/client'
+import prisma from '../../../../config/prismaClient'
 import { Artist } from "@prisma/client";
 
 class ArtistService {
