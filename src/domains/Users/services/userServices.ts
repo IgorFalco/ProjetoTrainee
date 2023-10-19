@@ -22,16 +22,28 @@ class UserService {
 	}
 
 	async delete(id: number) {
-		const deleteUser = await prisma.user.delete({
+		const deletedUser = await prisma.user.delete({
 			where: {
 				idUser: id,
 			},
 		});
+
+		return deletedUser;
 	}
 
 	async listAll() {
 
 		const users = await prisma.user.findMany();
+		return users;
+	}
+
+	async listByEmail(email: string) {
+
+		const users = await prisma.user.findUnique({
+			where:{
+				email: email,
+			},
+		});
 		return users;
 	}
 
