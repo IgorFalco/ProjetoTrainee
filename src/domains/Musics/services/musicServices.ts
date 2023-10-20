@@ -1,4 +1,4 @@
-import prisma from '../../../../config/prismaClient'
+import prisma from "../../../../config/prismaClient";
 import { Music} from "@prisma/client";
 
 class MusicService{
