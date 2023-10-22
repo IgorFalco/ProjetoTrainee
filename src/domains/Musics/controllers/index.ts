@@ -17,7 +17,43 @@ router.post("/create", async(req: Request, res: Response, next: NextFunction) =>
 		await musicServices.createMusic(req.body, parseInt(req.params.artistId)); // NAO SEI SE TA CERTO
 		res.json("Música criada com sucesso!");
 	}catch(error){
-		next(error);
+		next("Erro ao criar música." + error);
+	}
+});
+
+router.put("/update/:id", async(req: Request, res: Response, next: NextFunction) => {
+	try {
+		await musicServices.updateMusic(parseInt(req.params.musicId), req.body);
+		res.json("Música atualizada com sucesso!");
+	}catch(error){
+		next("Erro ao atualizar música." + error);
+	}
+});
+
+router.put("/updateListener/:musicId/:userId",async(req: Request, res: Response, next: NextFunction) =>{
+	try {
+		await musicServices.updateListenerUser(parseInt(req.params.musicId),parseInt(req.params.userId));
+		res.json("Música atualizada com sucesso!");
+	}catch(error){
+		next("Erro ao atualizar música." + error);
+	}
+} );
+
+router.put("/updateMusicArtist/:musicId/:artistId", async(req: Request, res: Response, next: NextFunction) => {
+	try{
+		await musicServices.updateMusicArtist(parseInt(req.params.musicId),parseInt(req.params.artistId));
+		res.json("Música atualizada com sucesso!");
+	}catch(error){
+		next("Erro ao atualizar música" + error);
+	}
+});
+
+router.delete("/delete", async(req: Request, res: Response, next: NextFunction) => {
+	try{
+		await musicServices.deleteMusic(parseInt(req.params.musicId));
+		res.json("Música deletada com sucesso!");
+	}catch(error){
+		next("Erro ao deletar música" + error);
 	}
 });
 
