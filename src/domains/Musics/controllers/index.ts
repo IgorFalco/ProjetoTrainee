@@ -48,7 +48,7 @@ router.put("/updateMusicArtist/:musicId/:artistId", async(req: Request, res: Res
 	}
 });
 
-router.delete("/delete", async(req: Request, res: Response, next: NextFunction) => {
+router.delete("/delete/:musicId", async(req: Request, res: Response, next: NextFunction) => {
 	try{
 		await musicServices.deleteMusic(parseInt(req.params.musicId));
 		res.json("Música deletada com sucesso!");
