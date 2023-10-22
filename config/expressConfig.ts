@@ -3,7 +3,7 @@ import express, { Express } from "express";
 import cors, { CorsOptions } from "cors";
 import UserRouter from "../src/domains/Users/controllers/index";
 import MusicRouter from "../src/domains/Musics/controllers/index";
-import ArtistRouter from "../src/domains/Artists/controllers/index"
+import ArtistRouter from "../src/domains/Artists/controllers/index";
 
 dotenv.config();
 

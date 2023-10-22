@@ -1,5 +1,5 @@
 
-import prisma from '../../../../config/prismaClient'
+import prisma from "../../../../config/prismaClient";
 import { Artist } from "@prisma/client";
 
 class ArtistService {
@@ -44,7 +44,7 @@ class ArtistService {
             where: {
                 idArtist: id,
             },
-        })
+        });
     }
 
     async listAll() {
