@@ -12,7 +12,7 @@ router.get("/", async(req: Request, res: Response, next: NextFunction) => {
 	}
 });
 
-router.post("/create", async(req: Request, res: Response, next: NextFunction) => {
+router.post("/create/:artistId", async(req: Request, res: Response, next: NextFunction) => {
 	try{
 		await musicServices.createMusic(req.body, parseInt(req.params.artistId)); // NAO SEI SE TA CERTO
 		res.json("Música criada com sucesso!");
@@ -21,7 +21,7 @@ router.post("/create", async(req: Request, res: Response, next: NextFunction) =>
 	}
 });
 
-router.put("/update/:id", async(req: Request, res: Response, next: NextFunction) => {
+router.put("/update/:musicId", async(req: Request, res: Response, next: NextFunction) => {
 	try {
 		await musicServices.updateMusic(parseInt(req.params.musicId), req.body);
 		res.json("Música atualizada com sucesso!");
