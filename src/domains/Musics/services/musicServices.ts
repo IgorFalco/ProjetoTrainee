@@ -141,7 +141,7 @@ class MusicService{
 			throw new Error("Música não encontrada");
 		}
 		
-		const deleteMusic = await prisma.music.delete({
+		await prisma.music.delete({
 			where:{
 				idMusic: musicId,
 			}
