@@ -33,14 +33,18 @@ class UserService {
 
 	async listAll() {
 
-		const users = await prisma.user.findMany();
+		const users = await prisma.user.findMany({
+			include: {
+				MusicsHeard: true,
+			},
+		})
 		return users;
 	}
 
 	async listByEmail(email: string) {
 
 		const users = await prisma.user.findUnique({
-			where:{
+			where: {
 				email: email,
 			},
 		});
@@ -57,21 +61,22 @@ class UserService {
 		return updateUser;
 
 	}
-	async updateHeardMusics(userId: number, musicId: number) {
+	async addNewMusics(userId: number, musics: string[]) {
+
+		if (!Array.isArray(musics)) {
+			musics = [musics];
+		}
+
 		const updateUser = await prisma.user.update({
+
 			where: {
 				idUser: userId,
 			},
 			data: {
 				MusicsHeard: {
-					connect: {
-						idMusic: musicId,
-					},
+					connect: musics.map((musicId) => ({ idMusic: parseInt(musicId) })),
 				},
 			},
-			include: {
-				MusicsHeard: true,
-			}
 		});
 		return updateUser;
 	}
