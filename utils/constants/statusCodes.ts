@@ -10,9 +10,4 @@ export const statusCodes = {
 	NOT_FOUND: 404,
 	INTERNAL_SERVER_ERROR: 500
 };
-
-<<<<<<< HEAD
 export default statusCodes;
-=======
-export default statusCodes;
->>>>>>> bb9da83c806dca59cc7f420388fb638dc058be05

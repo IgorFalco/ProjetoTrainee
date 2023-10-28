@@ -58,4 +58,4 @@ router.delete("/delete/:idArtist", async (req: Request, res: Response, next: Nex
   }
 });
 
-export default router
+export default router;
