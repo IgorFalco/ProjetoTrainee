@@ -3,6 +3,7 @@
 //se nao, retornar um erro de permissao
 
 
+import { PermissionError } from "../../../errors/errors/PermissionError";
 import statusCodes from "../../../utils/constants/statusCodes";
 import { Request, Response, NextFunction } from "express";
 
@@ -12,18 +13,15 @@ import { Request, Response, NextFunction } from "express";
 async function checkRole(allowedRoles : string) {
 	return (req: Request, res: Response, next: NextFunction) => {
 		const userRole = req.user.role;
-		try{
-			if(allowedRoles.includes(userRole)){
-				next();
-			}
-			else{
-				res.status(statusCodes.UNAUTHORIZED).json("Permissão negada");
-			}
-		}catch(error){
-			next(error);
+		
+		if(allowedRoles.includes(userRole)){
+			next();
+		}
+		else{
+			res.status(statusCodes.UNAUTHORIZED).json("Permissão negada");
+			throw new PermissionError("Usuário sem permissão");
 		}
 		
-
 	};
 }
 
