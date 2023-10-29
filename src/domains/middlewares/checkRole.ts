@@ -2,7 +2,7 @@
 //se o cargo estiver incluso na lista de cargos permitidos , chamar next() e .include()
 //se nao, retornar um erro de permissao
 
-import { User} from "@prisma/client";
+
 import statusCodes from "../../../utils/constants/statusCodes";
 import { Request, Response, NextFunction } from "express";
 
