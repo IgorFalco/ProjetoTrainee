@@ -1,6 +1,7 @@
 import musicServices from "../services/musicServices";
 import { Router, Request, Response, NextFunction } from "express";
 import statusCodes from "../../../../utils/constants/statusCodes";
+import checkRole from "../../middlewares/checkRole";
 
 const router = Router();
 
@@ -13,7 +14,7 @@ router.get("/", async(req: Request, res: Response, next: NextFunction) => {
 	}
 });
 
-router.post("/create/:artistId", async(req: Request, res: Response, next: NextFunction) => {
+router.post("/create/:artistId",checkRole("admin"), async(req: Request, res: Response, next: NextFunction) => { //considerando que a musica para ser adicionada tem que passar por um admin
 	try{
 		await musicServices.createMusic(req.body, parseInt(req.params.artistId)); // NAO SEI SE TA CERTO
 		res.status(statusCodes.CREATED).json("Música criada com sucesso!");
@@ -22,7 +23,7 @@ router.post("/create/:artistId", async(req: Request, res: Response, next: NextFu
 	}
 });
 
-router.put("/update/:musicId", async(req: Request, res: Response, next: NextFunction) => {
+router.put("/update/:musicId",checkRole("admin"), async(req: Request, res: Response, next: NextFunction) => {
 	try {
 		await musicServices.updateMusic(parseInt(req.params.musicId), req.body);
 		res.status(statusCodes.SUCCESS).json("Música atualizada com sucesso");
@@ -31,7 +32,7 @@ router.put("/update/:musicId", async(req: Request, res: Response, next: NextFunc
 	}
 });
 
-router.put("/updateListener/:musicId/:userId",async(req: Request, res: Response, next: NextFunction) =>{
+router.put("/updateListener/:musicId/:userId",checkRole("admin"),async(req: Request, res: Response, next: NextFunction) =>{
 	try {
 		await musicServices.updateListenerUser(parseInt(req.params.musicId),parseInt(req.params.userId));
 		res.status(statusCodes.SUCCESS).json("Ouvinte atualizado com sucesso!");
@@ -40,7 +41,7 @@ router.put("/updateListener/:musicId/:userId",async(req: Request, res: Response,
 	}
 } );
 
-router.put("/updateMusicArtist/:musicId/:artistId", async(req: Request, res: Response, next: NextFunction) => {
+router.put("/updateMusicArtist/:musicId/:artistId",checkRole("admin"), async(req: Request, res: Response, next: NextFunction) => {
 	try{
 		await musicServices.updateMusicArtist(parseInt(req.params.musicId),parseInt(req.params.artistId));
 		res.status(statusCodes.SUCCESS).json("Artista da música atualizado com sucesso!");
@@ -49,7 +50,7 @@ router.put("/updateMusicArtist/:musicId/:artistId", async(req: Request, res: Res
 	}
 });
 
-router.delete("/delete/:musicId", async(req: Request, res: Response, next: NextFunction) => {
+router.delete("/delete/:musicId", checkRole("admin"), async(req: Request, res: Response, next: NextFunction) => {
 	try{
 		await musicServices.deleteMusic(parseInt(req.params.musicId));
 		res.status(statusCodes.SUCCESS).json("Música deletada com sucesso");
