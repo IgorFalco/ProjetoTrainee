@@ -9,15 +9,20 @@ import { Request, Response, NextFunction } from "express";
 
 
 
-async function checkRole(allowedRoles : string[]) {
-	return async (req: Request, res: Response, next: NextFunction) => {
+async function checkRole(allowedRoles : string) {
+	return (req: Request, res: Response, next: NextFunction) => {
 		const userRole = req.user.role;
-		if(allowedRoles.includes(userRole)){
-			next();
+		try{
+			if(allowedRoles.includes(userRole)){
+				next();
+			}
+			else{
+				res.status(statusCodes.UNAUTHORIZED).json("Permissão negada");
+			}
+		}catch(error){
+			next(error);
 		}
-		else{
-			res.status(statusCodes.UNAUTHORIZED).json("Permissão negada");
-		}
+		
 
 	};
 }
