@@ -1,4 +1,4 @@
-//Também, os códigos de status HTTP mais usados.
+
 export const statusCodes = {
 	SUCCESS: 200,
 	CREATED: 201,
