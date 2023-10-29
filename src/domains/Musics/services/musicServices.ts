@@ -1,5 +1,7 @@
 import prisma from "../../../../config/prismaClient";
 import { Music} from "@prisma/client";
+import { QueryError } from "../../../../errors/errors/QueryError";
+import { PermissionError } from "../../../../errors/errors/PermissionError";
 
 
 class MusicService{
@@ -29,7 +31,7 @@ class MusicService{
 			return novaMusica;
 		}
 		else{
-			throw new Error("Artista não encontrado");
+			throw new QueryError("Artista não encontrado");
 		}
 
 	}
@@ -50,7 +52,10 @@ class MusicService{
 		});
 
 		if(!music){
-			throw new Error("Música não encontrada");
+			throw new QueryError("Música não encontrada");
+		}
+		if(data.name != music.name){
+			throw new PermissionError("Você nao pode alterar o nome da música");
 		}
 		else{
 			const updateMusic = await prisma.music.update({
@@ -74,7 +79,7 @@ class MusicService{
 		});
 
 		if(!music){
-			throw new Error("Música não encontrada");
+			throw new QueryError("Música não encontrada");
 		}
 
 
@@ -111,11 +116,11 @@ class MusicService{
 		});
 
 		if(!music){
-			throw new Error("Música não encontrada");
+			throw new QueryError("Música não encontrada");
 		}
 		
 		if(!newArtist){
-			throw new Error("Artista não encontrado");
+			throw new QueryError("Artista não encontrado");
 		}
 		
 		const updateMusic = await prisma.music.update({
@@ -139,7 +144,7 @@ class MusicService{
 		});
 
 		if(!music){
-			throw new Error("Música não encontrada");
+			throw new QueryError("Música não encontrada");
 		}
 		
 		await prisma.music.delete({
