@@ -1,6 +1,11 @@
 import userServices from '../services/userServices';
 import { Router, Request, Response, NextFunction } from 'express';
 
+enum Cargo {
+	USER = "artist",
+	ADMIN = "admin",
+  }
+
 const router = Router();
 
 router.get('/', async (req: Request, res: Response, next: NextFunction) => {
