@@ -11,7 +11,7 @@ const router = Router();
 
 router.post("/login", notLoggedIn, loginMiddleware);
 
-router.post("/logout", , logoutMiddleware);
+router.post("/logout", stillLoggedIn, logoutMiddleware);
 
 router.get('/', verifyJWT, async (req: Request, res: Response, next: NextFunction) => {
 	try {
