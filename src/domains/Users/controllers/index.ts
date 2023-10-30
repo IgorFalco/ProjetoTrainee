@@ -9,7 +9,7 @@ enum Cargo {
 
 const router = Router();
 
-router.post("/login", notLoggedIn, loginMiddleware);
+router.post("/login",checkIfLoggedInMiddleware, loginMiddleware);
 
 router.post("/logout", , logoutMiddleware);
 
@@ -22,7 +22,7 @@ router.get('/', verifyJWT, async (req: Request, res: Response, next: NextFunctio
 	}
 });
 
-router.get('/:email', async (req: Request, res: Response, next: NextFunction) => {
+router.get('/:email',verifyJWT, async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const user = await userServices.listByEmail(req.params.email);
 		res.json(user);
