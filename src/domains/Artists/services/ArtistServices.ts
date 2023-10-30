@@ -13,11 +13,11 @@ class ArtistService {
 				musics: {
 					create: [],
 				}
-			},
+			}
 		});
 		return artist;
 	}
-
+	
 	async update(artistId: number, Artistdata: Partial<Artist>) {
 
 		const artist = await prisma.artist.findUnique({
