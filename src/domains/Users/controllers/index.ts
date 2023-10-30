@@ -1,5 +1,6 @@
 import userServices from '../services/userServices';
 import { Router, Request, Response, NextFunction } from 'express';
+import {loginMiddleware, verifyJWT, logoutMiddleware, checkIfLoggedInMiddleware } from "../../middlewares/auth-middlewares";
 
 enum Cargo {
 	USER = "artist",
@@ -8,7 +9,11 @@ enum Cargo {
 
 const router = Router();
 
-router.get('/', async (req: Request, res: Response, next: NextFunction) => {
+router.post("/login", notLoggedIn, loginMiddleware);
+
+router.post("/logout", , logoutMiddleware);
+
+router.get('/', verifyJWT, async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const users = await userServices.listAll();
 		res.json(users);

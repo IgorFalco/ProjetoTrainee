@@ -1,7 +1,14 @@
 import prisma from "../../../../config/prismaClient";
-import { Music, User } from "@prisma/client";
+import { User } from "@prisma/client";
+import bcrypt = require("bcrypt");
 
 class UserService {
+
+	async encryptPassword(password: string){
+		const saltRounds = 10;
+		const encryptPassword = await bcrypt.hash(password, saltRounds);
+		return encryptPassword;
+	}
 
 	async create(body: User) {
 		const user = await prisma.user.create({
@@ -17,6 +24,8 @@ class UserService {
 			},
 
 		});
+
+		user.password = await this.encryptPassword(body.password);
 
 		return user;
 	}
@@ -37,7 +46,7 @@ class UserService {
 			include: {
 				MusicsHeard: true,
 			},
-		})
+		});
 		return users;
 	}
 
