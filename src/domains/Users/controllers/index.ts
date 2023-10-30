@@ -1,6 +1,6 @@
 import userServices from '../services/userServices';
 import { Router, Request, Response, NextFunction } from 'express';
-import {loginMiddleware, verifyJWT, logoutMiddleware, checkIfLoggedInMiddleware } from "../../middlewares/auth-middlewares";
+import {loginMiddleware, verifyJWT, logoutMiddleware, checkIfLoggedInMiddleware } from "../../../middlewares/auth-middlewares";
 
 enum Cargo {
 	USER = "artist",

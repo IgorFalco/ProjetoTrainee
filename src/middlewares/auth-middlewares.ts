@@ -1,10 +1,10 @@
-import statusCodes from "../../../utils/constants/statusCodes";
+import statusCodes from "../../utils/constants/statusCodes";
 import { Request, Response, NextFunction } from "express";
 import { User } from "@prisma/client";
-import prisma from "../../../config/prismaClient";
-import { PermissionError } from "../../../errors/errors/PermissionError";
+import prisma from "../../config/prismaClient";
+import { PermissionError } from "../../errors/errors/PermissionError";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken"; 
+import jwt from "jsonwebtoken";
 
 function generateJWT(body: User, res: Response) {
   const token = jwt.sign({ user: body }, process.env.SECRET_KEY, {
@@ -12,8 +12,8 @@ function generateJWT(body: User, res: Response) {
   });
 
   res.cookie("jwt", token, { /
-  httpOnly: true,
-  secure: process.env.NODE_ENV !== "development", //falso no desenvolvimento
+    httpOnly: true,
+    secure: process.env.NODE_ENV !== "development", //falso no desenvolvimento
 
   });
 }
@@ -22,7 +22,7 @@ function cookieExtractor(req: Request) {
   let token = null;
 
   if (req && req.cookies) {
-    token = req.cookies["jwt"]; 
+    token = req.cookies["jwt"];
   }
 
   return token;
@@ -86,7 +86,7 @@ export function checkIfLoggedInMiddleware(req: Request, res: Response, next: Nex
 
 export function logoutMiddleware(req: Request, res: Response, next: NextFunction) {
   try {
-    res.clearCookie("jwt"); 
+    res.clearCookie("jwt");
     res.status(200).json("Logout realizado com sucesso.");
   } catch (error) {
     next(error);
