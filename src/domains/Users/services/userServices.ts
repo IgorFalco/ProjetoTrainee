@@ -4,7 +4,7 @@ import bcrypt = require("bcrypt");
 
 class UserService {
 
-	async encryptPassword(password: string){
+	async encryptPassword(password: string) {
 		const saltRounds = 10;
 		const encryptPassword = await bcrypt.hash(password, saltRounds);
 		return encryptPassword;
@@ -61,6 +61,10 @@ class UserService {
 	}
 
 	async update(id: number, data: Partial<User>) {
+
+		if (data.password) {
+			data.password = await this.encryptPassword(data.password)
+		}
 		const updateUser = await prisma.user.update({
 			where: {
 				idUser: id,

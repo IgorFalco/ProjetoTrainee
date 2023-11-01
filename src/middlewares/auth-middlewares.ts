@@ -6,12 +6,18 @@ import { PermissionError } from "../../errors/errors/PermissionError";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-function generateJWT(body: User, res: Response) {
+function generateJWT(user: Partial<User>, res: Response) {
+	const body = {
+		id: user.idUser,
+		name: user.name,
+		email: user.email,
+		role: user.role
+	}
 	const token = jwt.sign({ user: body }, process.env.SECRET_KEY, {
 		expiresIn: process.env.JWT_EXPIRATION,
 	});
 
-	res.cookie("jwt", token, { 
+	res.cookie("jwt", token, {
 		httpOnly: true,
 		secure: process.env.NODE_ENV !== "development", //falso no desenvolvimento
 	});

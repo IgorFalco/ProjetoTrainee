@@ -1,17 +1,17 @@
 import userServices from '../services/userServices';
 import { Router, Request, Response, NextFunction } from 'express';
-import {loginMiddleware, verifyJWT, logoutMiddleware, checkIfLoggedInMiddleware } from "../../../middlewares/auth-middlewares";
+import { loginMiddleware, verifyJWT, logoutMiddleware, checkIfLoggedInMiddleware } from "../../../middlewares/auth-middlewares";
 
 enum Cargo {
 	USER = "artist",
 	ADMIN = "admin",
-  }
+}
 
 const router = Router();
 
-router.post("/login",checkIfLoggedInMiddleware, loginMiddleware);
+router.post("/login", checkIfLoggedInMiddleware, loginMiddleware);
 
-router.post("/logout", stillLoggedIn, logoutMiddleware);
+// router.post("/logout", stillLoggedIn, logoutMiddleware);
 
 router.get('/', verifyJWT, async (req: Request, res: Response, next: NextFunction) => {
 	try {
@@ -22,7 +22,7 @@ router.get('/', verifyJWT, async (req: Request, res: Response, next: NextFunctio
 	}
 });
 
-router.get('/:email',verifyJWT, async (req: Request, res: Response, next: NextFunction) => {
+router.get('/:email', verifyJWT, async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const user = await userServices.listByEmail(req.params.email);
 		res.json(user);
@@ -53,7 +53,7 @@ router.put('/:userId/addMusics', async (req: Request, res: Response, next: NextF
 	try {
 		const userId = parseInt(req.params.userId);
 		const musics = req.body.idMusic;
-		
+
 		const updatedUser = await userServices.addNewMusics(userId, musics);
 
 		res.json('Músicas adicionadas com sucesso!');
