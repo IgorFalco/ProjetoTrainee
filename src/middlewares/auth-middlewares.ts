@@ -4,7 +4,7 @@ import { User } from "@prisma/client";
 import prisma from "../../config/prismaClient";
 import { PermissionError } from "../../errors/errors/PermissionError";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 
 function generateJWT(user: Partial<User>, res: Response) {
 	const body = {
@@ -12,7 +12,7 @@ function generateJWT(user: Partial<User>, res: Response) {
 		name: user.name,
 		email: user.email,
 		role: user.role
-	}
+	};
 	const token = jwt.sign({ user: body }, process.env.SECRET_KEY, {
 		expiresIn: process.env.JWT_EXPIRATION,
 	});
@@ -56,7 +56,7 @@ export function verifyJWT(req: Request, res: Response, next: NextFunction) {
 	try {
 		const token = cookieExtractor(req);
 		if (token) {
-			const decoded = jwt.verify(token, process.env.SECRET_KEY);
+			const decoded = jwt.verify(token, process.env.SECRET_KEY) as JwtPayload;
 			req.user = decoded.user;
 		}
 		if (!req.user) {
