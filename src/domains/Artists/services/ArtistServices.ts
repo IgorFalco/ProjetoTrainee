@@ -34,13 +34,13 @@ class ArtistService {
 					idArtist: artistId,
 				},
 				data: Artistdata,
-			})
+			});
 			return updateArtist;
 		}
 	}
 
 	async delete(id: number) {
-		const deleteArtist = await prisma.artist.delete({
+		await prisma.artist.delete({
 			where: {
 				idArtist: id,
 			},
