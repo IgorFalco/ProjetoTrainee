@@ -63,7 +63,7 @@ class UserService {
 	async update(id: number, data: Partial<User>) {
 
 		if (data.password) {
-			data.password = await this.encryptPassword(data.password)
+			data.password = await this.encryptPassword(data.password);
 		}
 		const updateUser = await prisma.user.update({
 			where: {
