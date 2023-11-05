@@ -1,5 +1,5 @@
-import userServices from '../services/userServices';
-import { Router, Request, Response, NextFunction } from 'express';
+import userServices from "../services/userServices";
+import { Router, Request, Response, NextFunction } from "express";
 import { loginMiddleware, verifyJWT, logoutMiddleware, checkIfLoggedInMiddleware } from "../../../middlewares/auth-middlewares";
 
 enum Cargo {
@@ -13,7 +13,7 @@ router.post("/login", checkIfLoggedInMiddleware, loginMiddleware);
 
 // router.post("/logout", stillLoggedIn, logoutMiddleware);
 
-router.get('/', verifyJWT, async (req: Request, res: Response, next: NextFunction) => {
+router.get("/", verifyJWT, async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const users = await userServices.listAll();
 		res.json(users);
@@ -22,7 +22,7 @@ router.get('/', verifyJWT, async (req: Request, res: Response, next: NextFunctio
 	}
 });
 
-router.get('/:email', verifyJWT, async (req: Request, res: Response, next: NextFunction) => {
+router.get("/:email", verifyJWT, async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const user = await userServices.listByEmail(req.params.email);
 		res.json(user);
@@ -31,24 +31,24 @@ router.get('/:email', verifyJWT, async (req: Request, res: Response, next: NextF
 	}
 });
 
-router.post('/create', async (req: Request, res: Response, next: NextFunction) => {
+router.post("/create", async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		await userServices.create(req.body);
-		res.json('Usuário criado com sucesso!');
+		res.json("Usuário criado com sucesso!");
 	} catch (error) {
-		next('Erro ao criar um novo Usuário' + error);
+		next("Erro ao criar um novo Usuário" + error);
 	}
 });
 
-router.put('/update/:id', async (req: Request, res: Response, next: NextFunction) => {
+router.put("/update/:id", async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		await userServices.update(parseInt(req.params.id), req.body);
-		res.json('Usuário atualizado com sucesso!');
+		res.json("Usuário atualizado com sucesso!");
 	} catch (error) {
-		next('Erro ao atualizar o  Usuário' + error);
+		next("Erro ao atualizar o  Usuário" + error);
 	}
 });
-router.put('/:userId/addMusics', async (req: Request, res: Response, next: NextFunction) => {
+router.put("/:userId/addMusics", async (req: Request, res: Response, next: NextFunction) => {
 
 	try {
 		const userId = parseInt(req.params.userId);
@@ -56,18 +56,18 @@ router.put('/:userId/addMusics', async (req: Request, res: Response, next: NextF
 
 		const updatedUser = await userServices.addNewMusics(userId, musics);
 
-		res.json('Músicas adicionadas com sucesso!');
+		res.json("Músicas adicionadas com sucesso!");
 	} catch (error) {
-		next('Erro ao adicionar músicas ao usuário' + error);
+		next("Erro ao adicionar músicas ao usuário" + error);
 	}
 });
 
-router.delete('/:id', async (req: Request, res: Response, next: NextFunction) => {
+router.delete("/:id", async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const deletedUser = await userServices.delete(parseInt(req.params.id));
-		res.json('Usuário deletado com sucesso!');
+		res.json("Usuário deletado com sucesso!");
 	} catch (error) {
-		next('Erro ao deletar o Usuário' + error);
+		next("Erro ao deletar o Usuário" + error);
 	}
 });
 
