@@ -11,7 +11,7 @@ const router = Router();
 
 router.post("/login", checkIfLoggedInMiddleware, loginMiddleware);
 
-// router.post("/logout", stillLoggedIn, logoutMiddleware);
+router.post("/logout", verifyJWT, logoutMiddleware);
 
 router.get("/", verifyJWT, async (req: Request, res: Response, next: NextFunction) => {
 	try {
@@ -31,7 +31,7 @@ router.get("/:email", verifyJWT, async (req: Request, res: Response, next: NextF
 	}
 });
 
-router.post("/create", async (req: Request, res: Response, next: NextFunction) => {
+router.post("/create", verifyJWT, async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		await userServices.create(req.body);
 		res.json("Usuário criado com sucesso!");
@@ -40,7 +40,7 @@ router.post("/create", async (req: Request, res: Response, next: NextFunction) =
 	}
 });
 
-router.put("/update/:id", async (req: Request, res: Response, next: NextFunction) => {
+router.put("/update/:id", verifyJWT, async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		await userServices.update(parseInt(req.params.id), req.body);
 		res.json("Usuário atualizado com sucesso!");
@@ -48,13 +48,13 @@ router.put("/update/:id", async (req: Request, res: Response, next: NextFunction
 		next("Erro ao atualizar o  Usuário" + error);
 	}
 });
-router.put("/:userId/addMusics", async (req: Request, res: Response, next: NextFunction) => {
+router.put("/:userId/addMusics", verifyJWT, async (req: Request, res: Response, next: NextFunction) => {
 
 	try {
 		const userId = parseInt(req.params.userId);
 		const musics = req.body.idMusic;
 
-		const updatedUser = await userServices.addNewMusics(userId, musics);
+		await userServices.addNewMusics(userId, musics);
 
 		res.json("Músicas adicionadas com sucesso!");
 	} catch (error) {
@@ -62,9 +62,9 @@ router.put("/:userId/addMusics", async (req: Request, res: Response, next: NextF
 	}
 });
 
-router.delete("/:id", async (req: Request, res: Response, next: NextFunction) => {
+router.delete("/:id", verifyJWT, async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const deletedUser = await userServices.delete(parseInt(req.params.id));
+		await userServices.delete(parseInt(req.params.id));
 		res.json("Usuário deletado com sucesso!");
 	} catch (error) {
 		next("Erro ao deletar o Usuário" + error);
