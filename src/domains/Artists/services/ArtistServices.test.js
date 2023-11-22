@@ -2,7 +2,7 @@ import { Artist} from "@prisma/client";
 import ArtistService from "./ArtistServices";
 
 
-jest.mock("./your-prisma-instance", () => ({
+jest.mock("@prisma/client", () => ({
     artist: {
       create: jest.fn(),
       update: jest.fn(),
